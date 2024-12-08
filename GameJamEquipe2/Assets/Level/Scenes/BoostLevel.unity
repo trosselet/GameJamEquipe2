@@ -1665,6 +1665,7 @@ GameObject:
   - component: {fileID: 696417889}
   - component: {fileID: 696417888}
   - component: {fileID: 696417887}
+  - component: {fileID: 696417893}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1784,6 +1785,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9877fa1e-2abc-4409-afe9-e23564920914
     m_ActionName: Player/Dimension[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f4d49e0a-5bca-4b55-b33d-14f8f3b61c57
+    m_ActionName: Player/EnderPearl[/Keyboard/f]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1865,6 +1870,20 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &696417893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696417885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3b566324e15a3a4fbe93013de5e24d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 10
+  cam: {fileID: 1198191403}
 --- !u!1 &729261292
 GameObject:
   m_ObjectHideFlags: 0

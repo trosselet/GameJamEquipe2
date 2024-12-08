@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private KeyCode crouchKey;
 
     // [Header("Ground Check")]
-    public bool isOnGround { private get; set; }
+    public bool isOnGround { get; set; }
     private RaycastHit groundHit;
     
     [Header("Slope Handling")]

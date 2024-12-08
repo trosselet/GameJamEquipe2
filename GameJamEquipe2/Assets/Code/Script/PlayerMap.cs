@@ -53,6 +53,15 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Propulsion"",
+                    ""type"": ""Button"",
+                    ""id"": ""116c8231-119e-4e39-8ef9-b7850f33eb15"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -110,6 +119,17 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
                     ""action"": ""EnderPearl"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c522694c-9922-4e92-8b7e-e2761a256dee"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Propulsion"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -121,6 +141,7 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Dimension = m_Player.FindAction("Dimension", throwIfNotFound: true);
         m_Player_EnderPearl = m_Player.FindAction("EnderPearl", throwIfNotFound: true);
+        m_Player_Propulsion = m_Player.FindAction("Propulsion", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,6 +206,7 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Dimension;
     private readonly InputAction m_Player_EnderPearl;
+    private readonly InputAction m_Player_Propulsion;
     public struct PlayerActions
     {
         private @PlayerMap m_Wrapper;
@@ -192,6 +214,7 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Dimension => m_Wrapper.m_Player_Dimension;
         public InputAction @EnderPearl => m_Wrapper.m_Player_EnderPearl;
+        public InputAction @Propulsion => m_Wrapper.m_Player_Propulsion;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -210,6 +233,9 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
             @EnderPearl.started += instance.OnEnderPearl;
             @EnderPearl.performed += instance.OnEnderPearl;
             @EnderPearl.canceled += instance.OnEnderPearl;
+            @Propulsion.started += instance.OnPropulsion;
+            @Propulsion.performed += instance.OnPropulsion;
+            @Propulsion.canceled += instance.OnPropulsion;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -223,6 +249,9 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
             @EnderPearl.started -= instance.OnEnderPearl;
             @EnderPearl.performed -= instance.OnEnderPearl;
             @EnderPearl.canceled -= instance.OnEnderPearl;
+            @Propulsion.started -= instance.OnPropulsion;
+            @Propulsion.performed -= instance.OnPropulsion;
+            @Propulsion.canceled -= instance.OnPropulsion;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -245,5 +274,6 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnDimension(InputAction.CallbackContext context);
         void OnEnderPearl(InputAction.CallbackContext context);
+        void OnPropulsion(InputAction.CallbackContext context);
     }
 }
