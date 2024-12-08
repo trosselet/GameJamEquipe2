@@ -81,6 +81,11 @@ public class PlayerMovement : MonoBehaviour
         startYScale = transform.localScale.y;
     }
 
+    private void OnDestroy()
+    {
+        speedEffect.passMaterial = speedMaterial;
+    }
+
     private void Update()
     {
         //isOnGround = false;
