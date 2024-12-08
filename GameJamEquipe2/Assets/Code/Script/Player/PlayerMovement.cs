@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Code.Script;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,12 +43,30 @@ public class PlayerMovement : MonoBehaviour
     public Transform orientation;
     private Rigidbody rigidBody;
 
+    private CinemachineImpulseSource impulseSource;
+
+    [Header("Speed Effect")] 
+    [SerializeField] private FullScreenPassRendererFeature speedEffect;
+    [SerializeField] private Material speedMaterial;
+    private Material speedMaterialCopy;
+    private CinemachineVirtualCamera camera;
+    
     private void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
         // rigidBody.freezeRotation = true;
+        
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+        speedMaterialCopy = new Material(speedMaterial);
+        speedEffect.passMaterial = speedMaterialCopy;
+        camera = GetComponentInChildren<CinemachineVirtualCamera>();
 
         yScale = transform.localScale.y;
+    }
+
+    private void OnDestroy()
+    {
+        speedEffect.passMaterial = speedMaterial;
     }
 
     private void Update()
@@ -55,6 +74,15 @@ public class PlayerMovement : MonoBehaviour
         // onGround = false;
         // if (Physics.Raycast(transform.position, Vector3.down, out groundHit, playerHeight * 0.5f + 0.3f))
         //     onGround = groundHit.transform.gameObject.CompareTag("Ground");
+        // if (transform.position.y <= -20)
+        // {
+        //     KillPlayer();
+        //     return;
+        // }
+        
+        if (Physics.Raycast(transform.position, Vector3.down, out groundHit, playerHeight * 0.5f + 0.3f))
+            if (isOnGround == false)
+                impulseSource.GenerateImpulse(0.4f);
         
         MyInput();
         SpeedControl();
@@ -98,10 +126,19 @@ public class PlayerMovement : MonoBehaviour
         lastDesiredMoveSpeed = desiredMoveSpeed;
     }
 
+    private void KillPlayer()
+    {
+        
+    }
+    
     private void MovePlayer()
     {
         Vector3 moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
+        speedMaterialCopy.SetFloat("_Speed", rigidBody.velocity.magnitude * 0.02f);
+
+        camera.m_Lens.FieldOfView = Mathf.Lerp(camera.m_Lens.FieldOfView, 100 + rigidBody.velocity.magnitude * 1.2f,
+            Time.deltaTime * 4.0f);
         if (OnSlope())
         {
             rigidBody.useGravity = false;

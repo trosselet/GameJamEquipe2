@@ -62,6 +62,15 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ability"",
+                    ""type"": ""Button"",
+                    ""id"": ""116c8231-119e-4e39-8ef9-b7850f33eb15"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -164,6 +173,7 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_SlideCrouch = m_Player.FindAction("Slide/Crouch", throwIfNotFound: true);
         m_Player_Dimension = m_Player.FindAction("Dimension", throwIfNotFound: true);
+        m_Player_Ability = m_Player.FindAction("Ability", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -229,6 +239,7 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_SlideCrouch;
     private readonly InputAction m_Player_Dimension;
+    private readonly InputAction m_Player_Ability;
     public struct PlayerActions
     {
         private @PlayerMap m_Wrapper;
@@ -237,6 +248,7 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @SlideCrouch => m_Wrapper.m_Player_SlideCrouch;
         public InputAction @Dimension => m_Wrapper.m_Player_Dimension;
+        public InputAction @Ability => m_Wrapper.m_Player_Ability;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -258,6 +270,9 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
             @Dimension.started += instance.OnDimension;
             @Dimension.performed += instance.OnDimension;
             @Dimension.canceled += instance.OnDimension;
+            @Ability.started += instance.OnAbility;
+            @Ability.performed += instance.OnAbility;
+            @Ability.canceled += instance.OnAbility;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -274,6 +289,9 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
             @Dimension.started -= instance.OnDimension;
             @Dimension.performed -= instance.OnDimension;
             @Dimension.canceled -= instance.OnDimension;
+            @Ability.started -= instance.OnAbility;
+            @Ability.performed -= instance.OnAbility;
+            @Ability.canceled -= instance.OnAbility;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -297,5 +315,6 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnSlideCrouch(InputAction.CallbackContext context);
         void OnDimension(InputAction.CallbackContext context);
+        void OnAbility(InputAction.CallbackContext context);
     }
 }
