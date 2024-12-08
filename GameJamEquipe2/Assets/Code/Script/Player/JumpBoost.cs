@@ -23,12 +23,10 @@ public class JumpBoost : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse0) && loadingProgress < 100)
         {
             loadingProgress += 1 * Time.deltaTime;
-            
         }
         else
         {
             loadingProgress -= 1 * Time.deltaTime;
-            
         }
 
         if (loadingProgress > 100)
