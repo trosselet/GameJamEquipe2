@@ -10,6 +10,7 @@ public class Propulsion : MonoBehaviour
     [SerializeField] private Animation recoil;
     [SerializeField] private ParticleSystem bulletSystem;
     private PlayerMovement playerMovement;
+    private PlayerJumping playerJumping;
     private Rigidbody rb;
     private bool hasJump = true;
     
@@ -17,23 +18,24 @@ public class Propulsion : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerMovement = GetComponent<PlayerMovement>();
+        playerJumping = GetComponent<PlayerJumping>();
     }
 
     private void Update()
     {
-        if (playerMovement.readyToJump && playerMovement.isOnGround) hasJump = true;
+        if (playerJumping.readyToJump && playerMovement.onGround) hasJump = true;
     }
 
     public void Propulse()
     {
-        if (playerMovement.readyToJump && hasJump)
+        if (playerJumping.readyToJump && hasJump)
         {
             Vector3 forceToAdd = (-cam.transform.forward) * force;
             rb.AddForce(forceToAdd, ForceMode.Impulse);
             hasJump = false;
             recoil.Play();
             bulletSystem.Play();
-            if (playerMovement.isOnGround) playerMovement.readyToJump = false;
+            if (playerMovement.onGround) playerJumping.readyToJump = false;
         }
     }
 }

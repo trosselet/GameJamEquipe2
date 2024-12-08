@@ -9,7 +9,7 @@ public class PlayerJumping : MonoBehaviour
     
     [Header("Jumping")]
     [SerializeField] private float jumpForce;
-    private bool readyToJump = true;
+    public bool readyToJump { get; set; } = true;
     private float jumpTimer;
 
     [Header("References")]

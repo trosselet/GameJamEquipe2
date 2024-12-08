@@ -43,8 +43,6 @@ public class PlayerMovement : MonoBehaviour
     public Transform orientation;
     private Rigidbody rigidBody;
 
-    private CinemachineImpulseSource impulseSource;
-
     [Header("Speed Effect")] 
     [SerializeField] private FullScreenPassRendererFeature speedEffect;
     [SerializeField] private Material speedMaterial;
@@ -56,7 +54,6 @@ public class PlayerMovement : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         // rigidBody.freezeRotation = true;
         
-        impulseSource = GetComponent<CinemachineImpulseSource>();
         speedMaterialCopy = new Material(speedMaterial);
         speedEffect.passMaterial = speedMaterialCopy;
         camera = GetComponentInChildren<CinemachineVirtualCamera>();
@@ -71,19 +68,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // onGround = false;
-        // if (Physics.Raycast(transform.position, Vector3.down, out groundHit, playerHeight * 0.5f + 0.3f))
-        //     onGround = groundHit.transform.gameObject.CompareTag("Ground");
-        // if (transform.position.y <= -20)
-        // {
-        //     KillPlayer();
-        //     return;
-        // }
-        
-        if (Physics.Raycast(transform.position, Vector3.down, out groundHit, playerHeight * 0.5f + 0.3f))
-            if (isOnGround == false)
-                impulseSource.GenerateImpulse(0.4f);
-        
         MyInput();
         SpeedControl();
         StateHandler();
