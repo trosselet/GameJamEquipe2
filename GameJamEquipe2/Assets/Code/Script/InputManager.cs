@@ -5,20 +5,23 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private DimensionShifter dimensionShifter;
+    private PlayerMovement playerMovement;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        dimensionShifter = GetComponent<DimensionShifter>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     public void JumpInput(InputAction.CallbackContext ctx)
     {
         
+    }
+    
+    public void DimensionInput(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+            dimensionShifter.ChangeColor();
     }
 }

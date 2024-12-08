@@ -66,6 +66,8 @@ public class DimensionShifter : MonoBehaviour
 
     public void ChangeColor()
     {
+        if (mIsTransitionning) return;
+        
         mMatCopy.SetTexture("_OldCam", mCurrentColor.Value.Key);
         
         //loop through all children
@@ -83,11 +85,6 @@ public class DimensionShifter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            ChangeColor();
-        }
-        
         if (mIsTransitionning == false) return;
         
         if (mElapsedTime >= duration)
