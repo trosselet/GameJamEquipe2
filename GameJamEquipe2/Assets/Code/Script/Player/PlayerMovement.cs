@@ -33,9 +33,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private KeyCode sprintKey;
     [SerializeField] private KeyCode crouchKey;
 
-    [Header("Ground Check")]
-    [SerializeField] private LayerMask whatIsGround;
+    // [Header("Ground Check")]
     public bool isOnGround { private get; set; }
+    private RaycastHit groundHit;
     
     [Header("Slope Handling")]
     [SerializeField] private float maxSlopeAngle;
@@ -71,7 +71,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        isOnGround = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
+        isOnGround = false;
+        if (Physics.Raycast(transform.position, Vector3.down, out groundHit, playerHeight * 0.5f + 0.3f))
+            isOnGround = groundHit.transform.gameObject.CompareTag("Ground");
         
         MyInput();
         SpeedControl();
@@ -206,10 +208,13 @@ public class PlayerMovement : MonoBehaviour
 
     private bool OnSlope()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f, whatIsGround))
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
         {
-            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
-            return angle < maxSlopeAngle && angle != 0f;
+            if (slopeHit.transform.gameObject.CompareTag("Ground"))
+            {
+                float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+                return angle < maxSlopeAngle && angle != 0f;
+            }
         }
 
         return false;
