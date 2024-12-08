@@ -6,7 +6,7 @@ public class AutoColors : MonoBehaviour
     [SerializeField] private float duration = 5.0f; // Temps avant de changer la couleur
     private float elapsedTime = 0.0f; // Temps écoulé
 
-    [SerializeField] private DimensionShifter dimensionShifter; // Référence au script de changement de couleur
+    [SerializeField] private DimensionShifter dimensionShifter;
 
     void Start()
     {
