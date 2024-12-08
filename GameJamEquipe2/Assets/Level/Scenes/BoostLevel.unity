@@ -3435,6 +3435,31 @@ PrefabInstance:
       objectReference: {fileID: 237191587}
     - target: {fileID: 7704547578171659356, guid: 953aff6fdf1702146a35330c7e2664ec,
         type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7704547578171659356, guid: 953aff6fdf1702146a35330c7e2664ec,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionId
+      value: 55edb6de-9769-4c54-bf24-1b477e59acb1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7704547578171659356, guid: 953aff6fdf1702146a35330c7e2664ec,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionId
+      value: d98d2fcd-8927-4bc7-a782-c8295162701d
+      objectReference: {fileID: 0}
+    - target: {fileID: 7704547578171659356, guid: 953aff6fdf1702146a35330c7e2664ec,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionName
+      value: Player/Sprint[/Keyboard/leftShift,/XInputControllerWindows/leftStickPress]
+      objectReference: {fileID: 0}
+    - target: {fileID: 7704547578171659356, guid: 953aff6fdf1702146a35330c7e2664ec,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionName
+      value: Player/Slide/Crouch[/Keyboard/leftCtrl,/XInputControllerWindows/leftShoulder]
+      objectReference: {fileID: 0}
+    - target: {fileID: 7704547578171659356, guid: 953aff6fdf1702146a35330c7e2664ec,
+        type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
