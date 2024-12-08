@@ -5,18 +5,15 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    private DimensionShifter dimensionShifter;
     private PlayerMovement playerMovement;
+    private PlayerJumping playerJumping;
+    private DimensionShifter dimensionShifter;
 
     private void Start()
     {
-        dimensionShifter = GetComponent<DimensionShifter>();
         playerMovement = GetComponent<PlayerMovement>();
-    }
-
-    public void JumpInput(InputAction.CallbackContext ctx)
-    {
-        
+        playerJumping = GetComponent<PlayerJumping>();
+        dimensionShifter = GetComponent<DimensionShifter>();
     }
     
     public void DimensionInput(InputAction.CallbackContext ctx)

@@ -37,6 +37,24 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""55edb6de-9769-4c54-bf24-1b477e59acb1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Slide/Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""d98d2fcd-8927-4bc7-a782-c8295162701d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Dimension"",
                     ""type"": ""Button"",
                     ""id"": ""9877fa1e-2abc-4409-afe9-e23564920914"",
@@ -47,6 +65,28 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7f6c7fa4-ced9-44cd-bc48-392fb06616c8"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Slide/Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1581b161-91c1-46c3-9853-57e42598a5b5"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Slide/Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
                 {
                     ""name"": """",
                     ""id"": ""beca5845-bf52-450a-a849-c5078a77ac23"",
@@ -83,11 +123,33 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""712479ff-0011-421c-915a-7a37cd28792e"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Dimension"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54366fa3-825c-45cd-8f2c-7db777131b27"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c26091c2-3413-477c-ace5-8c855a6d6d89"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -99,6 +161,8 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+        m_Player_SlideCrouch = m_Player.FindAction("Slide/Crouch", throwIfNotFound: true);
         m_Player_Dimension = m_Player.FindAction("Dimension", throwIfNotFound: true);
     }
 
@@ -162,12 +226,16 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Sprint;
+    private readonly InputAction m_Player_SlideCrouch;
     private readonly InputAction m_Player_Dimension;
     public struct PlayerActions
     {
         private @PlayerMap m_Wrapper;
         public PlayerActions(@PlayerMap wrapper) { m_Wrapper = wrapper; }
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
+        public InputAction @SlideCrouch => m_Wrapper.m_Player_SlideCrouch;
         public InputAction @Dimension => m_Wrapper.m_Player_Dimension;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -181,6 +249,12 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Sprint.started += instance.OnSprint;
+            @Sprint.performed += instance.OnSprint;
+            @Sprint.canceled += instance.OnSprint;
+            @SlideCrouch.started += instance.OnSlideCrouch;
+            @SlideCrouch.performed += instance.OnSlideCrouch;
+            @SlideCrouch.canceled += instance.OnSlideCrouch;
             @Dimension.started += instance.OnDimension;
             @Dimension.performed += instance.OnDimension;
             @Dimension.canceled += instance.OnDimension;
@@ -191,6 +265,12 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Sprint.started -= instance.OnSprint;
+            @Sprint.performed -= instance.OnSprint;
+            @Sprint.canceled -= instance.OnSprint;
+            @SlideCrouch.started -= instance.OnSlideCrouch;
+            @SlideCrouch.performed -= instance.OnSlideCrouch;
+            @SlideCrouch.canceled -= instance.OnSlideCrouch;
             @Dimension.started -= instance.OnDimension;
             @Dimension.performed -= instance.OnDimension;
             @Dimension.canceled -= instance.OnDimension;
@@ -214,6 +294,8 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnJump(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
+        void OnSlideCrouch(InputAction.CallbackContext context);
         void OnDimension(InputAction.CallbackContext context);
     }
 }
