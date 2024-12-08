@@ -24,16 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "EnderPearl",
-                    "type": "Button",
-                    "id": "f4d49e0a-5bca-4b55-b33d-14f8f3b61c57",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Propulsion",
+                    "name": "Ability",
                     "type": "Button",
                     "id": "116c8231-119e-4e39-8ef9-b7850f33eb15",
                     "expectedControlType": "Button",
@@ -89,23 +80,12 @@
                 },
                 {
                     "name": "",
-                    "id": "994bcc2b-87eb-4519-a9d5-4774f8305de7",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "EnderPearl",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c522694c-9922-4e92-8b7e-e2761a256dee",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Propulsion",
+                    "action": "Ability",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

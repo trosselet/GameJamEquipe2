@@ -3435,8 +3435,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-    m_ActionId: f4d49e0a-5bca-4b55-b33d-14f8f3b61c57
-    m_ActionName: Player/EnderPearl[/Keyboard/f]
+    m_ActionId: 116c8231-119e-4e39-8ef9-b7850f33eb15
+    m_ActionName: Player/Ability[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

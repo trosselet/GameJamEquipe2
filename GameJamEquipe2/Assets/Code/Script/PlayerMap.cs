@@ -46,16 +46,7 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""EnderPearl"",
-                    ""type"": ""Button"",
-                    ""id"": ""f4d49e0a-5bca-4b55-b33d-14f8f3b61c57"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Propulsion"",
+                    ""name"": ""Ability"",
                     ""type"": ""Button"",
                     ""id"": ""116c8231-119e-4e39-8ef9-b7850f33eb15"",
                     ""expectedControlType"": ""Button"",
@@ -111,23 +102,12 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""994bcc2b-87eb-4519-a9d5-4774f8305de7"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""EnderPearl"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""c522694c-9922-4e92-8b7e-e2761a256dee"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Propulsion"",
+                    ""action"": ""Ability"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -140,8 +120,7 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Dimension = m_Player.FindAction("Dimension", throwIfNotFound: true);
-        m_Player_EnderPearl = m_Player.FindAction("EnderPearl", throwIfNotFound: true);
-        m_Player_Propulsion = m_Player.FindAction("Propulsion", throwIfNotFound: true);
+        m_Player_Ability = m_Player.FindAction("Ability", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -205,16 +184,14 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Dimension;
-    private readonly InputAction m_Player_EnderPearl;
-    private readonly InputAction m_Player_Propulsion;
+    private readonly InputAction m_Player_Ability;
     public struct PlayerActions
     {
         private @PlayerMap m_Wrapper;
         public PlayerActions(@PlayerMap wrapper) { m_Wrapper = wrapper; }
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Dimension => m_Wrapper.m_Player_Dimension;
-        public InputAction @EnderPearl => m_Wrapper.m_Player_EnderPearl;
-        public InputAction @Propulsion => m_Wrapper.m_Player_Propulsion;
+        public InputAction @Ability => m_Wrapper.m_Player_Ability;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -230,12 +207,9 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
             @Dimension.started += instance.OnDimension;
             @Dimension.performed += instance.OnDimension;
             @Dimension.canceled += instance.OnDimension;
-            @EnderPearl.started += instance.OnEnderPearl;
-            @EnderPearl.performed += instance.OnEnderPearl;
-            @EnderPearl.canceled += instance.OnEnderPearl;
-            @Propulsion.started += instance.OnPropulsion;
-            @Propulsion.performed += instance.OnPropulsion;
-            @Propulsion.canceled += instance.OnPropulsion;
+            @Ability.started += instance.OnAbility;
+            @Ability.performed += instance.OnAbility;
+            @Ability.canceled += instance.OnAbility;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -246,12 +220,9 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
             @Dimension.started -= instance.OnDimension;
             @Dimension.performed -= instance.OnDimension;
             @Dimension.canceled -= instance.OnDimension;
-            @EnderPearl.started -= instance.OnEnderPearl;
-            @EnderPearl.performed -= instance.OnEnderPearl;
-            @EnderPearl.canceled -= instance.OnEnderPearl;
-            @Propulsion.started -= instance.OnPropulsion;
-            @Propulsion.performed -= instance.OnPropulsion;
-            @Propulsion.canceled -= instance.OnPropulsion;
+            @Ability.started -= instance.OnAbility;
+            @Ability.performed -= instance.OnAbility;
+            @Ability.canceled -= instance.OnAbility;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -273,7 +244,6 @@ public partial class @PlayerMap: IInputActionCollection2, IDisposable
     {
         void OnJump(InputAction.CallbackContext context);
         void OnDimension(InputAction.CallbackContext context);
-        void OnEnderPearl(InputAction.CallbackContext context);
-        void OnPropulsion(InputAction.CallbackContext context);
+        void OnAbility(InputAction.CallbackContext context);
     }
 }
