@@ -105,7 +105,7 @@ public class DimensionShifter : MonoBehaviour
     {
         foreach (Transform child in parent.transform)
         {
-            child.GetComponent<MeshCollider>().enabled = active;
+            child.GetComponent<BoxCollider>().enabled = active;
         }
     }
 }
