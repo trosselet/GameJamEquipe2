@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float sprintSpeed;
     
     [Header("Jumping")]
-    [SerializeField] private float jumpForce;
+    [SerializeField] public float jumpForce;
     private bool readyToJump;
     private float jumpDelay;
     
