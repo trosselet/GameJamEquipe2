@@ -22,8 +22,8 @@ public class DimensionShifter : MonoBehaviour
     private ChromaticAberration mChromaticAberration;
     
     //Color change
-    private LinkedList<KeyValuePair<RenderTexture, GameObject>> mColorsList;
-    private LinkedListNode<KeyValuePair<RenderTexture, GameObject>> mCurrentColor;
+    public LinkedList<KeyValuePair<RenderTexture, GameObject>> mColorsList;
+    public LinkedListNode<KeyValuePair<RenderTexture, GameObject>> mCurrentColor;
     
     //Textures 2d
     [SerializeField] private RenderTexture mYellowTexture;
