@@ -7,11 +7,13 @@ public class InputManager : MonoBehaviour
 {
     private DimensionShifter dimensionShifter;
     private PlayerMovement playerMovement;
+    private Translateur translateur;
 
     private void Start()
     {
         dimensionShifter = GetComponent<DimensionShifter>();
         playerMovement = GetComponent<PlayerMovement>();
+        translateur = GetComponent<Translateur>();
     }
 
     public void JumpInput(InputAction.CallbackContext ctx)
@@ -24,4 +26,10 @@ public class InputManager : MonoBehaviour
         if (ctx.performed)
             dimensionShifter.ChangeColor();
     }
+
+    public void TranslateurInput(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+            translateur.CreateTranslateur();
+    }    
 }

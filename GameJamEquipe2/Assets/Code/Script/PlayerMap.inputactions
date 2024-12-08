@@ -22,6 +22,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "EnderPearl",
+                    "type": "Button",
+                    "id": "f4d49e0a-5bca-4b55-b33d-14f8f3b61c57",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -66,6 +75,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dimension",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "994bcc2b-87eb-4519-a9d5-4774f8305de7",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EnderPearl",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
