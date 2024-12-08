@@ -7,6 +7,8 @@ public class Propulsion : MonoBehaviour
 {
     [SerializeField] private float force;
     [SerializeField] private Transform cam;
+    [SerializeField] private Animation recoil;
+    [SerializeField] private ParticleSystem bulletSystem;
     private PlayerMovement playerMovement;
     private Rigidbody rb;
     private bool hasJump = true;
@@ -29,6 +31,8 @@ public class Propulsion : MonoBehaviour
             Vector3 forceToAdd = (-cam.transform.forward) * force;
             rb.AddForce(forceToAdd, ForceMode.Impulse);
             hasJump = false;
+            recoil.Play();
+            bulletSystem.Play();
             if (playerMovement.isOnGround) playerMovement.readyToJump = false;
         }
     }

@@ -56,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private FullScreenPassRendererFeature speedEffect;
     [SerializeField] private Material speedMaterial;
     private Material speedMaterialCopy;
+    private CinemachineVirtualCamera camera;
     
     [SerializeField] private MovementState currentState;
     [SerializeField] private enum MovementState
@@ -75,6 +76,8 @@ public class PlayerMovement : MonoBehaviour
         speedMaterialCopy = new Material(speedMaterial);
         speedEffect.passMaterial = speedMaterialCopy;
 
+        camera = GetComponentInChildren<CinemachineVirtualCamera>();
+
         readyToJump = true;
         exitingSlope = false;
 
@@ -88,6 +91,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (transform.position.y <= -20)
+        {
+            KillPlayer();
+            return;
+        }
+        
         //isOnGround = false;
         if (Physics.Raycast(transform.position, Vector3.down, out groundHit, playerHeight * 0.5f + 0.3f))
         {
@@ -113,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
                 jumpDelay = 0f;
             }
         }
-
+        
         rigidBody.drag = isOnGround ? groundDrag : 0f;
     }
     
@@ -173,11 +182,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void KillPlayer()
+    {
+        
+    }
+    
     private void MovePlayer()
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-        speedMaterialCopy.SetFloat("_Speed", rigidBody.velocity.magnitude * 0.07f);
-        GetComponentInChildren<CinemachineVirtualCamera>().m_Lens.FieldOfView = 100 + rigidBody.velocity.magnitude * 1.2f;
+
+        speedMaterialCopy.SetFloat("_Speed", rigidBody.velocity.magnitude * 0.02f);
+
+        camera.m_Lens.FieldOfView = Mathf.Lerp(camera.m_Lens.FieldOfView, 100 + rigidBody.velocity.magnitude * 1.2f,
+            Time.deltaTime * 4.0f);
         if (OnSlope())
         {
             rigidBody.useGravity = false;
