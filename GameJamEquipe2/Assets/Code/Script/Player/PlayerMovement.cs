@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     
     [Header("Jumping")]
     [SerializeField] private float jumpForce;
-    private bool readyToJump;
+    public bool readyToJump;
     private float jumpDelay;
     
     [Header("Crouching")]
