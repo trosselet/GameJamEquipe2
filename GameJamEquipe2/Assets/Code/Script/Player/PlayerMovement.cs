@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Cinemachine;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -22,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     
     [Header("Jumping")]
     [SerializeField] private float jumpForce;
-    public bool readyToJump;
+    private bool readyToJump;
     private float jumpDelay;
     
     [Header("Crouching")]
@@ -35,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private KeyCode crouchKey;
 
     // [Header("Ground Check")]
-    public bool isOnGround { get; set; }
+    public bool isOnGround { private get; set; }
     private RaycastHit groundHit;
     
     [Header("Slope Handling")]
@@ -50,14 +49,6 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody rigidBody;
 
-    private CinemachineImpulseSource impulseSource;
-
-    [Header("Speed Effect")] 
-    [SerializeField] private FullScreenPassRendererFeature speedEffect;
-    [SerializeField] private Material speedMaterial;
-    private Material speedMaterialCopy;
-    private CinemachineVirtualCamera camera;
-    
     [SerializeField] private MovementState currentState;
     [SerializeField] private enum MovementState
     {
@@ -71,12 +62,6 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.freezeRotation = true;
-        impulseSource = GetComponent<CinemachineImpulseSource>();
-        
-        speedMaterialCopy = new Material(speedMaterial);
-        speedEffect.passMaterial = speedMaterialCopy;
-
-        camera = GetComponentInChildren<CinemachineVirtualCamera>();
 
         readyToJump = true;
         exitingSlope = false;
@@ -84,29 +69,11 @@ public class PlayerMovement : MonoBehaviour
         startYScale = transform.localScale.y;
     }
 
-    private void OnDestroy()
-    {
-        speedEffect.passMaterial = speedMaterial;
-    }
-
     private void Update()
     {
-        if (transform.position.y <= -20)
-        {
-            KillPlayer();
-            return;
-        }
-        
-        //isOnGround = false;
+        isOnGround = false;
         if (Physics.Raycast(transform.position, Vector3.down, out groundHit, playerHeight * 0.5f + 0.3f))
-        {
-            if (isOnGround == false)
-            {
-                impulseSource.GenerateImpulse(0.4f);
-                isOnGround = groundHit.transform.gameObject.CompareTag("Ground");
-            }
-        }
-        else isOnGround = false;
+            isOnGround = groundHit.transform.gameObject.CompareTag("Ground");
         
         MyInput();
         SpeedControl();
@@ -122,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
                 jumpDelay = 0f;
             }
         }
-        
+
         rigidBody.drag = isOnGround ? groundDrag : 0f;
     }
     
@@ -182,19 +149,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void KillPlayer()
-    {
-        
-    }
-    
     private void MovePlayer()
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        speedMaterialCopy.SetFloat("_Speed", rigidBody.velocity.magnitude * 0.02f);
-
-        camera.m_Lens.FieldOfView = Mathf.Lerp(camera.m_Lens.FieldOfView, 100 + rigidBody.velocity.magnitude * 1.2f,
-            Time.deltaTime * 4.0f);
         if (OnSlope())
         {
             rigidBody.useGravity = false;
