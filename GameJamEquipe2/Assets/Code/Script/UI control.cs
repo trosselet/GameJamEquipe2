@@ -1,27 +1,56 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuController : MonoBehaviour
+public class ButtonHandler : MonoBehaviour
 {
-    // Fonction appelée par le bouton Play
+    public string[] levelNames = { "DoubleJumps", "Grapin" };
+
     public void PlayGame()
     {
-        // Charger la scène de jeu (remplacez "GameScene" par le nom de votre scène de jeu)
-        SceneManager.LoadScene("Level Double Jumps");
+        if (levelNames.Length > 0)
+        {
+            SceneManager.LoadScene(levelNames[0]);
+        }
+        else
+        {
+            Debug.LogError("Le tableau 'levelNames' est vide !");
+        }
+    }
+    public void LoadLevelByIndex(int index)
+    {
+        if (index >= 0 && index < levelNames.Length)
+        {
+            SceneManager.LoadScene(levelNames[index]);
+        }
+        else
+        {
+            Debug.LogError("Index de niveau invalide !");
+        }
     }
 
-    // Fonction appelée par le bouton Select Level
     public void SelectLevel()
     {
-        // Charger la scène de sélection des niveaux (remplacez "LevelSelectScene" par le nom de votre scène)
         SceneManager.LoadScene("LevelSelectScene");
     }
 
-    // Fonction appelée par le bouton Quit
     public void QuitGame()
     {
-        // Quitter l'application
-        Debug.Log("Quit Game"); // Pour tester dans l'éditeur (ne fermera pas l'éditeur)
+        Debug.Log("Quit Game");
         Application.Quit();
+    }
+
+    public void ActivateObject(GameObject obj)
+    {
+        obj.SetActive(true);
+    }
+
+    public void DeactivateObject(GameObject obj)
+    {
+        obj.SetActive(false);
+    }
+
+    public void PrintMessage(string message)
+    {
+        Debug.Log(message);
     }
 }
