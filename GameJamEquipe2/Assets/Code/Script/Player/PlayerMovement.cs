@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -49,6 +50,13 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody rigidBody;
 
+    private CinemachineImpulseSource impulseSource;
+
+    [Header("Speed Effect")] 
+    [SerializeField] private FullScreenPassRendererFeature speedEffect;
+    [SerializeField] private Material speedMaterial;
+    private Material speedMaterialCopy;
+    
     [SerializeField] private MovementState currentState;
     [SerializeField] private enum MovementState
     {
@@ -62,6 +70,10 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.freezeRotation = true;
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+        
+        speedMaterialCopy = new Material(speedMaterial);
+        speedEffect.passMaterial = speedMaterialCopy;
 
         readyToJump = true;
         exitingSlope = false;
@@ -71,9 +83,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        isOnGround = false;
+        //isOnGround = false;
         if (Physics.Raycast(transform.position, Vector3.down, out groundHit, playerHeight * 0.5f + 0.3f))
-            isOnGround = groundHit.transform.gameObject.CompareTag("Ground");
+        {
+            if (isOnGround == false)
+            {
+                impulseSource.GenerateImpulse(0.4f);
+                isOnGround = groundHit.transform.gameObject.CompareTag("Ground");
+            }
+        }
+        else isOnGround = false;
         
         MyInput();
         SpeedControl();
@@ -152,7 +171,8 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer()
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
+        speedMaterialCopy.SetFloat("_Speed", rigidBody.velocity.magnitude * 0.07f);
+        GetComponentInChildren<CinemachineVirtualCamera>().m_Lens.FieldOfView = 100 + rigidBody.velocity.magnitude * 1.2f;
         if (OnSlope())
         {
             rigidBody.useGravity = false;
